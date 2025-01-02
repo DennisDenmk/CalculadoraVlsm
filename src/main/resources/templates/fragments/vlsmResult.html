@@ -93,5 +93,10 @@
     </div>
 </div>
 <form action="/" method="get">
-    <button type="submit">Calcular Otra Subrede</button>
+    <button type="submit">Calcular Otra Subred</button>
+</form>
+<form action="/generate-pdf" method="post" target="_blank">
+    <input type="hidden" name="result" th:value="${result}">
+    <input type="hidden" name="redes" th:value="${redes}">
+    <button type="submit">Generar PDF</button>
 </form>
