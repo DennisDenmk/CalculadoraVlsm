@@ -13,7 +13,7 @@ public class VLSM {
     private int indiceredes;
     private List<String> nombresRed;
 
-    public VLSM(){
+    public VLSM() {
     }
 
     public VLSM(String ipBase, int mascara, List<Integer> hostsPorSubred) {
@@ -26,21 +26,29 @@ public class VLSM {
         this.indicehost = 0;
         this.indiceredes = 0;
     }
-    public String ImprimirRedesValidas(){
-        String redesvalidas ="";
-        int cont =0;
-       for (Subred aux : redes) {
-            if(aux.isUtilizada()){
-                redesvalidas += nombresRed.get(cont)+" = "+aux.getDireccionRed()+" /"+aux.getMascara()+
-                " Numero de host: "+ hostsPorSubred.get(cont)+"\n";
+
+    public String ImprimirRedesValidas() {
+        String redesvalidas = "";
+        int cont = 0;
+        for (Subred aux : redes) {
+            if (aux.isUtilizada()) {
+                redesvalidas += nombresRed.get(cont) + " = " + aux.getDireccionRed() + " /" + aux.getMascara() 
+                        +"\n" +
+                        "Numero de host: " + hostsPorSubred.get(cont) + "\n" 
+                        +"Primera Ip:"+aux.ConvertidorIaS(aux.calcularPrimeraIP())+"\n"
+                        +"Ultima Ip: "+ aux.ConvertidorIaS(aux.calcularUltimaIP())+"\n"
+                        +"BroadCast: "+ aux.ConvertidorIaS(aux.calcularBroadcast())+"\n"+
+                        "--"+"\n";
+
                 cont++;
             }
-           
-       }
+
+        }
         return redesvalidas;
-        
+
     }
-    private void Ordenamiento(){
+
+    private void Ordenamiento() {
 
         for (int i = 0; i < this.hostsPorSubred.size(); i++) {
             this.nombresRed.add("Lan" + (i + 1));
@@ -67,7 +75,7 @@ public class VLSM {
                 }
             }
         }
-            
+
     }
 
     public boolean obteneredes() {
@@ -90,7 +98,7 @@ public class VLSM {
                 redes.remove(redes.size() - 1); // Elimina el último elemento
                 redes.remove(redes.size() - 1); // Elimina el penúltimo elemento
             }
-            
+
             return true;
         }
         return false;
@@ -157,19 +165,18 @@ public class VLSM {
     }
 
     public String ImprimirVlsm() {
-        String s =  "";
+        String s = "";
         String lan = "";
-        int cont=0;
+        int cont = 0;
         for (Subred elemento : redes) {
-            if(elemento.isUtilizada()){
-                lan = "=>"+nombresRed.get(cont);
+            if (elemento.isUtilizada()) {
+                lan = "=>" + nombresRed.get(cont);
                 cont++;
-            }
-            else{
-                lan="";
+            } else {
+                lan = "";
             }
             s += this.saltoImprimir(elemento) + elemento.ImprimirBinario()
-            +elemento+lan+"\n";
+                    + elemento + lan + "\n";
         }
         return s;
     }

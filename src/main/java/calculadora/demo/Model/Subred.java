@@ -50,9 +50,6 @@ public class Subred {
     public String toString() {
         return "      " + direccionRed + ""
                 + " /" + mascara + " ";
-        // + ", Primera IP: "+this.ConvertidorIaS(this.calcularPrimeraIP())+"\n"
-        // + ", Ultima IP: "+this.ConvertidorIaS(this.calcularUltimaIP())+"\n"
-        // + ", BroadCast: "+this.ConvertidorIaS(this.calcularBroadcast())+"\n";
 
     }
 
@@ -89,9 +86,11 @@ public class Subred {
         }
         return s.toString();
     }
-
-    public int[] binarioADecimalIP() {
-        int[][] binario = this.ipABinario();
+    public int[] binarioADecimalIP(){
+        return binarioADecimalIP(this.ipABinario());
+    }
+    public int[] binarioADecimalIP(int[][] testbinario) {
+        int[][] binario = testbinario;
 
         // Verificar que la matriz sea válida (4 filas y 8 columnas)
         if (binario.length != 4 || binario[0].length != 8) {
@@ -119,29 +118,22 @@ public class Subred {
     public int[] calcularBroadcast() {
         String ip = this.direccionRed;
 
-        // Dividir la IP en sus cuatro octetos
-        String[] octetos = ip.split("\\.");
-        int[] direccion = new int[4];
-
-        // Convertir cada octeto a entero
-        for (int i = 0; i < 4; i++) {
-            direccion[i] = Integer.parseInt(octetos[i]);
+        int[][] broadcast = new int[this.redBinario.length][this.redBinario[0].length];
+        for (int i = 0; i < broadcast.length; i++) {
+            for (int j = 0; j < broadcast[i].length; j++) {
+                broadcast[i][j] =redBinario[i][j];
+            }
         }
-
-        // Calcular la máscara en formato decimal
-        int[] mascara = new int[4];
-        for (int i = 0; i < this.mascara; i++) {
-            int byteIndex = i / 8; // Índice del octeto
-            mascara[byteIndex] |= (1 << (7 - (i % 8))); // Ajustar el bit en la máscara
+        int cont=0;
+        for (int i = 0; i < broadcast.length; i++) {
+            for (int j = 0; j < broadcast[i].length; j++) {
+                if(cont>=this.mascara){
+                    broadcast[i][j] = 1; 
+                }
+                cont++;
+            }
         }
-
-        // Calcular la dirección de broadcast
-        int[] broadcast = new int[4];
-        for (int i = 0; i < 4; i++) {
-            broadcast[i] = direccion[i] | ~mascara[i] & 0xFF; // Aplicar máscara inversa
-        }
-
-        return broadcast; // Devolver el arreglo de enteros
+        return this.binarioADecimalIP(broadcast);
     }
 
     public int[] calcularPrimeraIP() {
