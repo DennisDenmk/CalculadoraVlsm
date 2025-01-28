@@ -7,7 +7,12 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    height: 90%;
+}
+div {
+    margin-bottom: 20px;
+    width: 100%;
+    max-width: 95%;
 }
 
 /* Contenedor principal */
@@ -36,6 +41,7 @@ label {
     margin-bottom: 8px;
     color: #333;
 }
+
 
 input[type="text"], input[type="number"] {
     width: 100%;
